@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>flowchart.js · Playground</title>
+        <style type="text/css">
+          .end-element { background-color : #FFCCFF; }
+        </style>
+
+<script>
+
+    window.onload = function () {
+        alert("a");
+        var cds = document.getElementsByName("flow");
+        var code;
+        alert(cds.length);
+        for(var i = 0; i < cds.length; i++) {
+        	  alert(cds[i]);
+        	  alert(cds[i]);
+            code = cds[i].innerText;
+            alert(code);
+            alert(cds[i].outerText);
+         };
+    };
+</script>
+    </head>
+<body>
+<pre name="flow" id="flow">
+st=>start: User login
+op=>operation: Operation
+cond=>condition: Successful Yes or No?
+e=>end: Into admin
+
+st->op->cond
+cond(yes)->e
+cond(no)->op
+</pre>
+<div id="canvas"></div>
+
+<pre name="flow" id="flow2">
+st=>start: User login
+op=>operation: Operation
+cond=>condition: Successful Yes or No?
+e=>end: Into admin
+
+st->op->cond
+cond(yes)->e
+cond(no)->op
+</pre>
+
+    </body>
+</html>

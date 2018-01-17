@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>flowchart.js · Playground</title>
+        <style type="text/css">
+          .end-element { background-color : #FFCCFF; }
+        </style>
+        <script src="flowchart/raphael-min.js"></script>
+        <script src="flowchart/jquery.min.js"></script>
+        <script src="flowchart/flowchart.min.js"></script>
+        <script src="flowchart/flowchart.drawflow.js"></script>
+        
+        <script>
+
+            window.onload = function () {
+                var cds = document.getElementsByName("flow");
+                var code;
+
+                for (i = 0; i < cds.length; i++) {
+                	 // code to be executed
+                    code = cds[i].innerText;                    
+                    cds[i].outerHTML += '<div id="canvas' +i + '"></div>'
+                    drawflow(code, "canvas" +i );
+                    cds[i].hidden = 'hidden';
+                };
+
+            };
+        </script>
+    </head>
+    <body>
+<pre name="flow" id="flow">
+st=>start: User login
+op=>operation: Operation
+cond=>condition: Successful Yes or No?
+e=>end: Into admin
+
+st->op->cond
+cond(yes)->e
+cond(no)->op
+</pre>
+
+<P>something ...</P>
+<pre name="flow" id="flow2">
+st=>start: Start|past:>http://www.google.com[blank]
+e=>end: End:>http://www.google.com
+op1=>operation: My Operation|past
+op2=>operation: Stuff|current
+sub1=>subroutine: My Subroutine|invalid
+cond=>condition: Yes
+or No?|approved:>http://www.google.com
+c2=>condition: Good idea|rejected
+io=>inputoutput: catch something...|request
+
+st->op1(right)->cond
+cond(yes, right)->c2
+cond(no)->sub1(left)->op1
+c2(yes)->io->e
+c2(no)->op2->e
+
+st@>op1({"stroke":"Red"})@>cond({"stroke":"Red","stroke-width":6,"arrow-end":"classic-wide-long"})@>c2({"stroke":"Red"})@>op2({"stroke":"Red"})@>e({"stroke":"Red"})
+</pre>
+
+    </body>
+</html>
