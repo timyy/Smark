@@ -30,6 +30,9 @@ signals:
 
     void verticalScroll(float ratio);
 
+public slots:
+
+    void setScrollBarValue(float ratio);
 /* *****************************************************************************
  *
  *                              find and replace

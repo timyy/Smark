@@ -119,10 +119,19 @@ void SmkOptionDialog::initGui()
     ui->textEditTail->setPlainText(qSmkApp()->option("text.tail"));
     ui->textEditFoot->setPlainText(qSmkApp()->option("text.foot"));
 
+
     pHighlighter_[0] = new SmkHtmlHighlighter(ui->textEditHeader->document());
     pHighlighter_[1] = new SmkHtmlHighlighter(ui->textEditHat->document());
     pHighlighter_[2] = new SmkHtmlHighlighter(ui->textEditTail->document());
     pHighlighter_[3] = new SmkHtmlHighlighter(ui->textEditFoot->document());
+
+    // SynScrollMethod
+    QString SynScrollMethod = qSmkApp()->option("SynScroll");
+    QString SynScrollMethods = "MD2Html,Html2MD";
+    QStringList SynScrollMethodsList = SynScrollMethods.split(",");
+    ui->comboBoxSyncScroll->clear();
+    ui->comboBoxSyncScroll->addItems(SynScrollMethodsList);
+    ui->comboBoxSyncScroll->setCurrentIndex(SynScrollMethodsList.indexOf(SynScrollMethod));
 }
 
 void SmkOptionDialog::on_comboBoxGuiStyle_currentIndexChanged(const QString& style) {
@@ -256,6 +265,8 @@ void SmkOptionDialog::on_buttonBox_accepted()
     qSmkApp()->setOption("text.hat",    ui->textEditHat->toPlainText());
     qSmkApp()->setOption("text.tail",   ui->textEditTail->toPlainText());
     qSmkApp()->setOption("text.foot",   ui->textEditFoot->toPlainText());
+
+    qSmkApp()->setOption("SynScroll", ui->comboBoxSyncScroll->currentText());
 }
 
 void SmkOptionDialog::on_lineEditCSSURL_textEdited(const QString& arg) {

@@ -1,5 +1,6 @@
 ﻿#include <QTextDocument>
 #include "Smark/SmkConfig.h"
+#include "Smark/SmkApp.h"
 #include "Smark/SmkHtmlWidget.h"
 
 #if (QT_VERSION < 0x050000)
@@ -8,6 +9,8 @@
 
 SmkHtmlWidget::SmkHtmlWidget(QWidget* parent)
     : QWebEngineView(parent) {
+    connect(page(), SIGNAL(scrollPositionChanged(const QPointF&)),
+            this,                SLOT(when_page_scrollPositionChanged(const QPointF&)) );
 }
 
 /* *****************************************************************************
@@ -26,7 +29,20 @@ void SmkHtmlWidget::clearHtml(void) {
  *                          synchronized scrolling
  *
  * ****************************************************************************/
+
+
 //! @todo
+//!
+//!
+void SmkHtmlWidget::when_page_scrollPositionChanged(const QPointF &point){
+    float ratio = point.y() /page()->contentsSize().height();
+    qDebug() << "page scroll" << page()->contentsSize().height()
+             << " " << point.y() << " " << ratio;
+
+    emit page_verticalScroll(ratio);
+}
+
+
 int SmkHtmlWidget::scrollValue(void) {
     //! @todo:qt5 的page没有mainFrame, 需要改进才能把scrolling  改好。
     //!
@@ -56,10 +72,12 @@ void SmkHtmlWidget::setScrollRatio(float ratio) {
     //! https://www.jianshu.com/p/46087c0ace05
     //! 算form的高度。
 
-    const QString ScrollJavaScript("var oHeight=document.body.scrollHeight==0" \
-                                   "?document.documentElement.scrollHeight:document.body.scrollHeight;" \
-                                   "window.scrollTo(0, oHeight * %1);");
-    page()->runJavaScript(ScrollJavaScript.arg(ratio));
+    if(qSmkApp()->option("SynScroll") == "MD2Html"){
+        const QString ScrollJavaScript("var oHeight=document.body.scrollHeight==0" \
+                                       "?document.documentElement.scrollHeight:document.body.scrollHeight;" \
+                                       "window.scrollTo(0, oHeight * %1);");
+        page()->runJavaScript(ScrollJavaScript.arg(ratio));
+    }
 
 //    int maxv = page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
 //    int minv = page()->mainFrame()->scrollBarMinimum(Qt::Vertical);

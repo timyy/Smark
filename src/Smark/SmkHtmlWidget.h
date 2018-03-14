@@ -9,6 +9,7 @@ class SmkHtmlWidget
 {
     Q_OBJECT
 
+
 public:
 
     explicit SmkHtmlWidget(QWidget *parent = 0);
@@ -29,6 +30,13 @@ public:
  *                          synchronized scrolling
  *
  * ****************************************************************************/
+
+private slots:
+    void when_page_scrollPositionChanged(const QPointF &point);
+
+signals:
+
+    void page_verticalScroll(float ratio);
 
 public:
 

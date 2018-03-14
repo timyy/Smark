@@ -1,4 +1,5 @@
 ﻿#include "Smark/SmkConfig.h"
+#include "Smark/SmkApp.h"
 #include "Smark/SmkMarkWidget.h"
 
 SmkMarkWidget::SmkMarkWidget(QWidget* parent) :
@@ -13,18 +14,29 @@ SmkMarkWidget::SmkMarkWidget(QWidget* parent) :
  *                          synchronized scrolling
  *
  * ****************************************************************************/
-
+// 这个是当光标移动时，左边动
 float SmkMarkWidget::scrollRatio() {
     QScrollBar* scroll = verticalScrollBar();
     return float(scroll->value()-scroll->minimum())
             / float(scroll->maximum()-scroll->minimum());
 }
 
+// 这个是scrollbar 动时，左边动。
 void SmkMarkWidget::when_VerticalScrollBar_valueChanged(int val) {
     QScrollBar* scroll = verticalScrollBar();
     float ratio = float(val-scroll->minimum())
                   / float(scroll->maximum()-scroll->minimum());
     emit verticalScroll(ratio);
+}
+
+void SmkMarkWidget::setScrollBarValue(float ratio) {
+    QScrollBar* scroll = verticalScrollBar();
+    int var;
+    var = int(ratio * float(scroll->maximum()-scroll->minimum())+ scroll->minimum());
+    if(qSmkApp()->option("SynScroll") == "Html2MD"){
+        qDebug() <<  "MD set scroll:" << var;
+        scroll->setValue(var);
+    }
 }
 
 /* *****************************************************************************

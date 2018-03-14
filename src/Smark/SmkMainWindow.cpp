@@ -70,8 +70,15 @@ void SmkMainWindow::_aux_connectSignalAndSlot(void) {
             this,         SLOT(when_mark_is_edit()) );
     connect(&parser_,     SIGNAL(completed()),
             this,         SLOT(when_parser_process_finish()) );
+
+    //! @todo
+    //!
+    connect(ui->htmlView, SIGNAL(page_verticalScroll(float)),
+            ui->markView, SLOT(setScrollBarValue(float)) );
+
     connect(ui->markView, SIGNAL(verticalScroll(float)),
             ui->htmlView, SLOT(setScrollRatio(float)) );
+
 }
 
 void SmkMainWindow::_aux_switchDisplayMode(SmkGuiMode mode) {
